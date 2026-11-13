@@ -39,7 +39,7 @@ export function Chat() {
         {messages.map((message) => (
           <div key={message.id} className="flex flex-col gap-1">
             <span className="text-xs font-medium text-muted-foreground">
-              {message.role === 'user' ? 'You' : 'v0 (GPT-6 Luna)'}
+              {message.role === 'user' ? 'You' : 'v0'}
             </span>
             <div className="whitespace-pre-wrap text-sm leading-relaxed">
               {message.parts.map((part, i) =>
