@@ -3,6 +3,23 @@
 import { useChat } from '@ai-sdk/react'
 import { V0Transport, type V0UIMessage } from '@v0-sdk/react'
 import { useState } from 'react'
+import { MODEL_ID } from '@/lib/v0-config'
+
+// usage.model echoes the requested model (with zero tokens) until v0 reports
+// real usage, which names the model it actually ran.
+function ModelVerdict({ message }: { message: V0UIMessage }) {
+  const usage = message.metadata?.usage
+  const actual = usage?.model
+  if (!actual || !usage?.tokens?.total) return null
+  if (actual === MODEL_ID) {
+    return <p className="text-xs text-muted-foreground">Answered by {actual}</p>
+  }
+  return (
+    <p role="alert" className="text-xs font-medium text-destructive">
+      Requested {MODEL_ID}, but v0 ran {actual}
+    </p>
+  )
+}
 
 export function Chat() {
   const [input, setInput] = useState('')
@@ -46,6 +63,7 @@ export function Chat() {
                 part.type === 'text' ? <span key={`${message.id}-${i}`}>{part.text}</span> : null,
               )}
             </div>
+            {message.role === 'assistant' && <ModelVerdict message={message} />}
           </div>
         ))}
         {status === 'submitted' && <p className="text-sm text-muted-foreground">Thinking...</p>}
