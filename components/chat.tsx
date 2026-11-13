@@ -1,11 +1,22 @@
 'use client'
 
 import { useChat } from '@ai-sdk/react'
+import { V0Transport, type V0UIMessage } from '@v0-sdk/react'
 import { useState } from 'react'
 
 export function Chat() {
   const [input, setInput] = useState('')
-  const { messages, sendMessage, status, error } = useChat()
+  const [transport] = useState(
+    () =>
+      new V0Transport({
+        urls: {
+          create: '/api/v0/chats',
+          send: (chatId) => `/api/v0/chats/${chatId}/messages`,
+          resume: (chatId) => `/api/v0/chats/${chatId}/resume`,
+        },
+      }),
+  )
+  const { messages, sendMessage, status, error } = useChat<V0UIMessage>({ transport })
   const isBusy = status === 'submitted' || status === 'streaming'
 
   function submit() {
@@ -28,7 +39,7 @@ export function Chat() {
         {messages.map((message) => (
           <div key={message.id} className="flex flex-col gap-1">
             <span className="text-xs font-medium text-muted-foreground">
-              {message.role === 'user' ? 'You' : 'GPT-6 Luna'}
+              {message.role === 'user' ? 'You' : 'v0 (GPT-6 Luna)'}
             </span>
             <div className="whitespace-pre-wrap text-sm leading-relaxed">
               {message.parts.map((part, i) =>
