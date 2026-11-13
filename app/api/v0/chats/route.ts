@@ -4,11 +4,13 @@ import {
   modelConfiguration,
   streamOptions,
   systemPrompt,
+  toStreamResponse,
   v0ErrorResponse,
 } from '@/lib/v0-config'
 
 export async function POST(request: Request) {
   const body = (await request.json()) as ChatsCreateStreamData['body']
+  const { options, state } = streamOptions(request)
   try {
     const result = await v0.chats.createStream(
       {
@@ -17,10 +19,10 @@ export async function POST(request: Request) {
         modelConfiguration,
         privacy: chatPrivacy,
       },
-      streamOptions(request),
+      options,
     )
-    return result.toResponse()
+    return await toStreamResponse(result, state)
   } catch (error) {
-    return v0ErrorResponse(error)
+    return v0ErrorResponse(state.failure ?? error)
   }
 }
