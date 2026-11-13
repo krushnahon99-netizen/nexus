@@ -10,9 +10,16 @@ export const systemPrompt =
 
 // Without V0_API_KEY the SDK authenticates with the project's Vercel OIDC token,
 // and the v0 API only lets OIDC principals create 'team' or 'team-edit' chats.
-export const chatPrivacy: 'private' | 'team' = process.env.V0_API_KEY
+// 'team-edit' keeps follow-up messages writable for the project principal.
+export const chatPrivacy: 'private' | 'team-edit' = process.env.V0_API_KEY
   ? 'private'
-  : 'team'
+  : 'team-edit'
+
+// The SDK's SSE client retries failed requests forever by default, which turns
+// API errors (out of credits, forbidden) into a request that never finishes.
+export function streamOptions(request: Request) {
+  return { sseMaxRetryAttempts: 1, signal: request.signal }
+}
 
 export function v0ErrorResponse(error: unknown) {
   const message = error instanceof Error ? error.message : 'v0 API request failed'
