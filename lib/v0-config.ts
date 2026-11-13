@@ -1,5 +1,5 @@
 export const modelConfiguration = {
-  modelId: 'openai/gpt-6-luna',
+  modelId: 'anthropic/claude-sonnet-5.5',
   imageGenerations: false,
 }
 

@@ -29,7 +29,7 @@ export function Chat() {
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-2xl flex-col px-4">
       <header className="border-b py-3">
-        <h1 className="text-sm font-medium">GPT-6 Luna test</h1>
+        <h1 className="text-sm font-medium">Claude Sonnet 5.5 test</h1>
       </header>
 
       <div className="flex flex-1 flex-col gap-4 py-4" aria-live="polite">
@@ -74,7 +74,7 @@ export function Chat() {
               submit()
             }
           }}
-          placeholder="Message GPT-6 Luna"
+          placeholder="Message Claude Sonnet 5.5"
           className="flex-1 resize-none rounded-md border bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
         />
         <button

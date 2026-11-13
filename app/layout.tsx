@@ -3,8 +3,8 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'GPT-6 Luna Chat Test',
-  description: 'A plain chat interface for testing GPT-6 Luna.',
+  title: 'Claude Sonnet 5.5 Chat Test',
+  description: 'A plain chat interface for testing Claude Sonnet 5.5 through v0.',
   generator: 'v0.app',
   icons: {
     icon: [
